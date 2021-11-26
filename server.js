@@ -22,6 +22,16 @@ app.get("/", function (req, res) {
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
+}); 
+let resObject = {}
+
+app.get("/api/:date?", function (req, res) {
+  let input = req.params.date
+   
+  if(input.includes('-')){
+    resObject['unix'] = new Date(input).getTime()
+  }
+  res.json(resObject)
 });
 
 
