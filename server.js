@@ -27,10 +27,25 @@ let resObject = {}
 
 app.get("/api/:date?", function (req, res) {
   let input = req.params.date
-   
-  if(input.includes('-')){
-    resObject['unix'] = new Date(input).getTime()
+  console.log(input)
+  if(!input){
+    resObject['unix'] = new Date().getTime()
+    resObject['utc'] = new Date().toUTCString()
   }
+  
+  else if(input.includes('-')){
+    resObject['unix'] = new Date(input).getTime()
+    resObject['utc'] = new Date(input).toUTCString()
+
+  }
+ else if(typeof Number(input) === 'number'){
+    console.log('heelo')
+    resObject['unix'] = new Date(Number(input)).getTime()
+    resObject['utc'] = new Date(Number(input)).toUTCString()
+    }
+  if(!resObject.unix || !resObject.utc){
+    res.json({ error : "Invalid Date" })
+  }  
   res.json(resObject)
 });
 
